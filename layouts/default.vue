@@ -1,6 +1,8 @@
 <template>
   <v-app>
     <v-content>
+      <Menu />
+      <UserBubulle />
       <v-container>
         <nuxt />
       </v-container>
@@ -15,7 +17,14 @@
 </template>
 
 <script>
+import Menu from '../components/Menu'
+import UserBubulle from '../components/UserBubulle'
+
 export default {
+  components: {
+    Menu,
+    UserBubulle
+  },
   data () {
     return {
       clipped: false,
