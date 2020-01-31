@@ -4,6 +4,9 @@
 .v-list-item--active i{
   text-shadow: 0 0 18px #FFFFFF;
 }
+.v-application .v-list-item--active .grey--text{
+  color: white!important;
+}
 .menuSep{
   display: inline-block;
   box-sizing: border-box;
