@@ -1,51 +1,51 @@
 <template>
-    <v-container>
+  <v-container>
     <h1>Evenement mis en avant</h1>
     <CardEvent />
     <CardEvent />
     <CardEvent />
     <CardEvent />
-      <v-row>
-        <v-col class="col-6">
-          <h1>Categories misent en avant</h1>
-          <div class="options">
-            <div
-              v-for="category in categories"
-              :key="category.id"
-              v-on:click="activate(category.id)"
-              v-bind:class="{ active : activeCat == category.id }"
-              v-bind:style="{ backgroundImage: 'url(' + category.bgImage + ')' }"
-              class="option"
-            >
-              <div class="shadow" />
-              <div class="label">
-                <div class="icon">
-                  <i
-                    v-bind:class="category.fontAwsomeIcon"
-                    class="fas"
-                  />
+    <v-row>
+      <v-col class="col-6">
+        <h1>Categories misent en avant</h1>
+        <div class="options">
+          <div
+            v-for="category in categories"
+            :key="category.id"
+            v-on:click="activate(category.id)"
+            v-bind:class="{ active : activeCat == category.id }"
+            v-bind:style="{ backgroundImage: 'url(' + category.bgImage + ')' }"
+            class="option"
+          >
+            <div class="shadow" />
+            <div class="label">
+              <div class="icon">
+                <i
+                  v-bind:class="category.fontAwsomeIcon"
+                  class="fas"
+                />
+              </div>
+              <div class="infoCategory">
+                <div class="main">
+                  {{ category.mainInfo }}
                 </div>
-                <div class="infoCategory">
-                  <div class="main">
-                    {{ category.mainInfo }}
-                  </div>
-                  <div class="sub">
-                    {{ category.secondaryinfo }}
-                  </div>
+                <div class="sub">
+                  {{ category.secondaryinfo }}
                 </div>
               </div>
             </div>
           </div>
-        </v-col>
-        <v-col class="col-6">
-          <h1>Categories</h1>
-          <CardCategory />
-          <CardCategory />
-          <CardCategory />
-          <CardCategory />
-        </v-col>
-      </v-row>
-    </v-container>
+        </div>
+      </v-col>
+      <v-col class="col-6">
+        <h1>Categories</h1>
+        <CardCategory />
+        <CardCategory />
+        <CardCategory />
+        <CardCategory />
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 <script>
 import CardEvent from '../components/CardEvent'
