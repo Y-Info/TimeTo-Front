@@ -129,7 +129,7 @@ export default {
   methods: {
     initialize () {
       axios
-        .get('https://its-time-to.herokuapp.com/api/event')
+        .get(process.env.ApiUrl + 'event')
         .then(response => (this.events = response.data))
     },
 
@@ -143,7 +143,7 @@ export default {
       const index = this.events.indexOf(item)
       confirm('Are you sure you want to delete this item?')
       axios
-        .delete('https://its-time-to.herokuapp.com/api/event/' + item._id)
+        .delete(process.env.ApiUrl + 'event/' + item._id)
         .then(this.events.splice(index, 1))
     },
 
@@ -157,7 +157,7 @@ export default {
 
     save () {
       if (this.editedIndex > -1) {
-        axios.put('https://its-time-to.herokuapp.com/api/event/' + this.editedItem._id, {
+        axios.put(process.env.ApiUrl + 'event/' + this.editedItem._id, {
           title: this.editedItem.title,
           description: this.editedItem.description,
           type: this.editedItem.type,
@@ -167,7 +167,7 @@ export default {
           .catch((e) => { this.errors.push(e) })
       } else {
         this.events.push(this.editedItem)
-        axios.post('https://its-time-to.herokuapp.com/api/event/', {
+        axios.post(process.env.ApiUrl + 'event/', {
           title: this.editedItem.title,
           description: this.editedItem.description,
           type: this.editedItem.type,

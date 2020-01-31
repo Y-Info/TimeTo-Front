@@ -1,8 +1,13 @@
 .logo{
   margin-bottom: 20px;
 }
-.text-shadow-ico{
+.v-list-item--active i{
   text-shadow: 0 0 18px #FFFFFF;
+}
+.menuSep{
+  display: inline-block;
+  box-sizing: border-box;
+  padding: 30px 16px 0;
 }
 h1{
   padding: 20px 10px;
