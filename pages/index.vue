@@ -1,46 +1,60 @@
 <template>
-  <section>
+    <v-container>
     <h1>Evenement mis en avant</h1>
     <CardEvent />
     <CardEvent />
     <CardEvent />
     <CardEvent />
-    <h1>Categories misent en avant</h1>
-    <div class="options">
-      <div
-        v-for="category in categories"
-        :key="category.id"
-        v-on:click="activate(category.id)"
-        v-bind:class="{ active : activeCat == category.id }"
-        v-bind:style="{ backgroundImage: 'url(' + category.bgImage + ')' }"
-        class="option"
-      >
-        <div class="shadow" />
-        <div class="label">
-          <div class="icon">
-            <i
-              v-bind:class="category.fontAwsomeIcon"
-              class="fas"
-            />
-          </div>
-          <div class="infoCategory">
-            <div class="main">
-              {{ category.mainInfo }}
+      <v-row>
+        <v-col class="col-6">
+          <h1>Categories misent en avant</h1>
+          <div class="options">
+            <div
+              v-for="category in categories"
+              :key="category.id"
+              v-on:click="activate(category.id)"
+              v-bind:class="{ active : activeCat == category.id }"
+              v-bind:style="{ backgroundImage: 'url(' + category.bgImage + ')' }"
+              class="option"
+            >
+              <div class="shadow" />
+              <div class="label">
+                <div class="icon">
+                  <i
+                    v-bind:class="category.fontAwsomeIcon"
+                    class="fas"
+                  />
+                </div>
+                <div class="infoCategory">
+                  <div class="main">
+                    {{ category.mainInfo }}
+                  </div>
+                  <div class="sub">
+                    {{ category.secondaryinfo }}
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="sub">
-              {{ category.secondaryinfo }}
-            </div>
           </div>
-        </div>
-      </div>
-    </div>
-  </section>
+        </v-col>
+        <v-col class="col-6">
+          <h1>Categories</h1>
+          <CardCategory />
+          <CardCategory />
+          <CardCategory />
+          <CardCategory />
+        </v-col>
+      </v-row>
+    </v-container>
 </template>
 <script>
 import CardEvent from '../components/CardEvent'
+import CardCategory from '../components/CardCategory'
+
 export default {
   components: {
-    CardEvent
+    CardEvent,
+    CardCategory
   },
   data () {
     return {
@@ -70,12 +84,6 @@ export default {
           id: 4,
           fontAwsomeIcon: 'fa-tint',
           bgImage: 'https://66.media.tumblr.com/5516a22e0cdacaa85311ec3f8fd1e9ef/tumblr_o45jwvdsL11qho82wo1_1280.jpg',
-          mainInfo: 'Blonkisoaz',
-          secondaryinfo: 'Omuke trughte a otufta'
-        }, {
-          id: 5,
-          fontAwsomeIcon: 'fa-sun',
-          bgImage: 'https://66.media.tumblr.com/f19901f50b79604839ca761cd6d74748/tumblr_o65rohhkQL1qho82wo1_1280.jpg',
           mainInfo: 'Blonkisoaz',
           secondaryinfo: 'Omuke trughte a otufta'
         }

@@ -19,7 +19,7 @@
             fas {{ item.icon }}
           </v-icon>
         </v-list-item-action>
-        <v-list-item-content dense small >
+        <v-list-item-content dense small>
           <v-list-item-title v-if="item.current !== true" class="grey--text">
             {{ item.text }}
           </v-list-item-title>
