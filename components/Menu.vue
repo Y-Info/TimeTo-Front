@@ -15,7 +15,7 @@
           <v-icon v-if="item.current !== true" dense small color="grey">
             fas {{ item.icon }}
           </v-icon>
-          <v-icon v-else dense small>
+          <v-icon v-else dense small class="text-shadow-ico">
             fas {{ item.icon }}
           </v-icon>
         </v-list-item-action>

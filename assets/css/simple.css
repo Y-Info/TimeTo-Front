@@ -1,11 +1,22 @@
 .logo{
   margin-bottom: 20px;
 }
+.text-shadow-ico{
+  text-shadow: 0 0 18px #FFFFFF;
+}
+h1{
+  padding: 20px 10px;
+  font-weight: normal;
+  letter-spacing: 3px;
+}
+.v-content__wrap{
+  margin-top: 20px;
+}
 .buble{
   text-decoration: none;
   display: block;
   position: absolute;
-  top: 30px;
+  top: 0;
   right: 45px;
   z-index: 1;
 }
@@ -22,4 +33,97 @@
   top: 11px;
   width: 100px;
   font-size: 14px;
+}
+.cardevent{
+  text-decoration: none;
+  width:  calc(25% - 20px);
+  height: 230px;
+  display: inline-block;
+  box-sizing: border-box;
+  overflow: hidden;
+  background-color: white;
+  color: black;
+  -webkit-box-shadow: 0 0 10px -5px rgba(255,255,255,1);
+  -moz-box-shadow: 0 0 10px -5px rgba(255,255,255,1);
+  box-shadow: 0 0 10px -5px rgba(255,255,255,1);
+  border-radius: 10px;
+  position: relative;
+  margin: 8px;
+}
+.cardevent>.v-responsive.v-image{
+  height: 130px;
+}
+.cardevent .countdown{
+  background-color: rgba(76, 76, 76, 0.31);
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  position: absolute;
+  top: 96px;
+  right: 4px;
+  color: white;
+}
+.cardevent h2{
+  margin-top: 10px;
+  width: 80%;
+  font-size: 18px;
+  padding: 0 15px;
+  color: black;
+}
+.cardevent .author{
+  font-size: 17px;
+  padding: 0 15px;
+  color: #7F828B;
+}
+.cardcategory{
+  border-radius: 10px;
+  width: calc(50% - 20px);
+  height: 150px;
+  overflow: hidden;
+  position: relative;
+  text-decoration: none;
+  display: inline-block;
+  margin: 8px;
+}
+.cardcategory>p:first-of-type{
+  position: absolute;
+  color: white;
+  display: block;
+  left: 20px;
+  top: 25px;
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  width: calc(60% - 20px);
+}
+.cardcategory__number{
+  font-weight: bold;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 40%;
+  display: block;
+  color: white;
+  text-align: center;
+  z-index: 2;
+  transform: translateY(-50%);
+}
+.blur{
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 40%;
+  display: block;
+  background-color: rgba(0, 0, 0, 0.7);;
+  height: 100%;
+  filter: blur(0.8);
+  -webkit-filter: blur(0.8);
+}
+.cardcategory i{
+  font-size: 16px;
+  position: absolute;
+  display: block;
+  bottom: 15px;
+  left: 20px;
 }
