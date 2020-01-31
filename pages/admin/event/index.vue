@@ -30,16 +30,27 @@
                 <v-container>
                   <v-row>
                     <v-col cols="12">
-                      <v-text-field v-model="editedItem.title" label="Title" />
+                      <v-text-field v-model="editedItem.title" :rules="[v => !!v || 'Title is required']" label="Title" />
                     </v-col>
                     <v-col cols="12">
-                      <v-text-field v-model="editedItem.description" label="Description" />
+                      <v-text-field v-model="editedItem.description" :rules="[v => !!v || 'Description is required']" label="Description" />
                     </v-col>
                     <v-col cols="12">
-                      <v-text-field v-model="editedItem.type" label="Type" />
+                      <v-select
+                        v-model="editedItem.type"
+                        :items="types"
+                        label="Type"
+                        required
+                      />
                     </v-col>
                     <v-col cols="12">
-                      <v-text-field v-model="editedItem.category" label="category" />
+                      <v-select
+                        v-model="editedItem.category"
+                        :items="categories"
+                        :rules="[v => !!v || 'Category is required']"
+                        label="Category"
+                        required
+                      />
                     </v-col>
                   </v-row>
                 </v-container>
@@ -92,7 +103,18 @@ export default {
       { text: 'Type', value: 'type' },
       { text: 'Category', value: 'category' },
       { text: 'Actions', value: 'action', sortable: false }
-
+    ],
+    categories: [
+      'Jeux-Video',
+      'Item 2',
+      'Item 3',
+      'Item 4'
+    ],
+    types: [
+      'ouai ouai',
+      'Official',
+      'Item 3',
+      'Item 4'
     ],
     events: [],
     editedIndex: -1,

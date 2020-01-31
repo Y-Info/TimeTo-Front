@@ -36,7 +36,7 @@
         link
       >
         <v-list-item-action>
-          <v-icon dense small  color="grey">
+          <v-icon dense small color="grey">
             {{ item.icon }}
           </v-icon>
         </v-list-item-action>
