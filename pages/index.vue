@@ -1,5 +1,11 @@
 <template>
   <section>
+    <h1>Evenement mis en avant</h1>
+    <CardEvent />
+    <CardEvent />
+    <CardEvent />
+    <CardEvent />
+    <h1>Categories misent en avant</h1>
     <div class="options">
       <div
         v-for="category in categories"
@@ -31,7 +37,11 @@
   </section>
 </template>
 <script>
+import CardEvent from '../components/CardEvent'
 export default {
+  components: {
+    CardEvent
+  },
   data () {
     return {
       categories: [
