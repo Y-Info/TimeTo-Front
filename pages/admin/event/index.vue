@@ -163,8 +163,7 @@ export default {
 
     deleteItem (item) {
       const index = this.events.indexOf(item)
-      confirm('Are you sure you want to delete this item?')
-      axios
+      confirm('Are you sure you want to delete this item?') && axios
         .delete(process.env.ApiUrl + 'event/' + item._id)
         .then(this.events.splice(index, 1))
     },
