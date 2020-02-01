@@ -1,9 +1,9 @@
 <template>
   <v-container>
-    <h1> Page administration : Events</h1>
+    <h1> Page administration : Categories</h1>
     <v-data-table
       :headers="headers"
-      :items="events"
+      :items="categories"
       class="elevation-1"
     >
       <template v-slot:top>
@@ -18,7 +18,7 @@
           <v-dialog v-model="dialog" max-width="500px">
             <template v-slot:activator="{ on }">
               <v-btn v-on="on" color="primary" dark class="mb-2">
-                New Event
+                New Category
               </v-btn>
             </template>
             <v-card>
@@ -97,7 +97,7 @@ import axios from 'axios'
 
 export default {
   data: () => ({
-    title: 'Admin Event',
+    title: 'Admin Category',
     meta_desc: '',
     dialog: false,
     headers: [
@@ -107,19 +107,13 @@ export default {
       { text: 'Category', value: 'category' },
       { text: 'Actions', value: 'action', sortable: false }
     ],
-    categories: [
-      'Jeux-Video',
-      'Item 2',
-      'Item 3',
-      'Item 4'
-    ],
     types: [
       'ouai ouai',
       'Official',
       'Item 3',
       'Item 4'
     ],
-    events: [],
+    categories: [],
     editedIndex: -1,
     editedItem: {
       title: '',
@@ -146,7 +140,7 @@ export default {
 
   computed: {
     formTitle () {
-      return this.editedIndex === -1 ? 'New Event' : 'Edit Event'
+      return this.editedIndex === -1 ? 'New Category' : 'Edit Category'
     }
   },
 
@@ -163,21 +157,21 @@ export default {
   methods: {
     initialize () {
       axios
-        .get(process.env.ApiUrl + 'event')
-        .then(response => (this.events = response.data))
+        .get(process.env.ApiUrl + 'category')
+        .then(response => (this.categories = response.data))
     },
 
     editItem (item) {
-      this.editedIndex = this.events.indexOf(item)
+      this.editedIndex = this.categories.indexOf(item)
       this.editedItem = Object.assign({}, item)
       this.dialog = true
     },
 
     deleteItem (item) {
-      const index = this.events.indexOf(item)
+      const index = this.categories.indexOf(item)
       confirm('Are you sure you want to delete this item?') && axios
-        .delete(process.env.ApiUrl + 'event/' + item._id)
-        .then(this.events.splice(index, 1))
+        .delete(process.env.ApiUrl + 'category/' + item._id)
+        .then(this.categories.splice(index, 1))
     },
 
     close () {
@@ -190,17 +184,17 @@ export default {
 
     save () {
       if (this.editedIndex > -1) {
-        axios.put(process.env.ApiUrl + 'event/' + this.editedItem._id, {
+        axios.put(process.env.ApiUrl + 'category/' + this.editedItem._id, {
           title: this.editedItem.title,
           description: this.editedItem.description,
           type: this.editedItem.type,
           category: this.editedItem.category
         })
-          .then(Object.assign(this.events[this.editedIndex], this.editedItem))
+          .then(Object.assign(this.categories[this.editedIndex], this.editedItem))
           .catch((e) => { this.errors.push(e) })
       } else {
-        this.events.push(this.editedItem)
-        axios.post(process.env.ApiUrl + 'event/', {
+        this.categories.push(this.editedItem)
+        axios.post(process.env.ApiUrl + 'category/', {
           title: this.editedItem.title,
           description: this.editedItem.description,
           type: this.editedItem.type,
