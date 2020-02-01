@@ -58,6 +58,8 @@ export default {
   },
   data () {
     return {
+      title: 'TimeTo...',
+      meta_desc: '',
       categories: [
         {
           id: 1,
@@ -89,6 +91,14 @@ export default {
         }
       ],
       activeCat: 1
+    }
+  },
+  head () {
+    return {
+      title: this.title,
+      meta: [
+        { hid: 'description', name: 'description', content: this.meta_desc }
+      ]
     }
   },
   methods: {

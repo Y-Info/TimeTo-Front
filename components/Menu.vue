@@ -70,6 +70,7 @@ export default {
       { icon: 'fas fa-heart', text: 'Like' }
     ],
     itemsAdmin: [
+      { icon: 'fab fa-keycdn', text: 'Admin', url: '/admin' },
       { icon: 'far fa-calendar', text: 'Event', url: '/admin/event' }
     ]
   }),

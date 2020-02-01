@@ -94,8 +94,11 @@
 </template>
 <script>
 import axios from 'axios'
+
 export default {
   data: () => ({
+    title: 'Admin Event',
+    meta_desc: '',
     dialog: false,
     headers: [
       { text: 'Title', value: 'title' },
@@ -131,6 +134,15 @@ export default {
       category: 'jeux-video'
     }
   }),
+
+  head () {
+    return {
+      title: this.title,
+      meta: [
+        { hid: 'description', name: 'description', content: this.meta_desc }
+      ]
+    }
+  },
 
   computed: {
     formTitle () {

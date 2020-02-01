@@ -65,3 +65,21 @@
     </v-form>
   </v-row>
 </template>
+<script>
+export default {
+  data () {
+    return {
+      title: 'Admin Board',
+      meta_desc: ''
+    }
+  },
+  head () {
+    return {
+      title: this.title,
+      meta: [
+        { hid: 'description', name: 'description', content: this.meta_desc }
+      ]
+    }
+  }
+}
+</script>
