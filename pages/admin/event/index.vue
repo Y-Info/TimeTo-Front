@@ -47,6 +47,8 @@
                       <v-select
                         v-model="editedItem.category"
                         :items="categories"
+                        item-value="name"
+                        item-text="name"
                         :rules="[v => !!v || 'Category is required']"
                         label="Category"
                         required
@@ -108,10 +110,9 @@ export default {
       { text: 'Actions', value: 'action', sortable: false }
     ],
     categories: [
-      'Jeux-Video',
-      'Item 2',
-      'Item 3',
-      'Item 4'
+      {
+        name: 'test'
+      }
     ],
     types: [
       'ouai ouai',
@@ -165,6 +166,9 @@ export default {
       axios
         .get(process.env.ApiUrl + 'event')
         .then(response => (this.events = response.data))
+      axios
+        .get(process.env.ApiUrl + 'category')
+        .then(response => (this.categories = response.data))
     },
 
     editItem (item) {

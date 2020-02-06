@@ -30,27 +30,7 @@
                 <v-container>
                   <v-row>
                     <v-col cols="12">
-                      <v-text-field v-model="editedItem.title" :rules="[v => !!v || 'Title is required']" label="Title" />
-                    </v-col>
-                    <v-col cols="12">
-                      <v-text-field v-model="editedItem.description" :rules="[v => !!v || 'Description is required']" label="Description" />
-                    </v-col>
-                    <v-col cols="12">
-                      <v-select
-                        v-model="editedItem.type"
-                        :items="types"
-                        label="Type"
-                        required
-                      />
-                    </v-col>
-                    <v-col cols="12">
-                      <v-select
-                        v-model="editedItem.category"
-                        :items="categories"
-                        :rules="[v => !!v || 'Category is required']"
-                        label="Category"
-                        required
-                      />
+                      <v-text-field v-model="editedItem.name" :rules="[v => !!v || 'Name is required']" label="Name" />
                     </v-col>
                   </v-row>
                 </v-container>
@@ -101,31 +81,16 @@ export default {
     meta_desc: '',
     dialog: false,
     headers: [
-      { text: 'Title', value: 'title' },
-      { text: 'Description', value: 'description' },
-      { text: 'Type', value: 'type' },
-      { text: 'Category', value: 'category' },
+      { text: 'Name', value: 'name' },
       { text: 'Actions', value: 'action', sortable: false }
-    ],
-    types: [
-      'ouai ouai',
-      'Official',
-      'Item 3',
-      'Item 4'
     ],
     categories: [],
     editedIndex: -1,
     editedItem: {
-      title: '',
-      description: '',
-      type: '',
-      category: ''
+      name: ''
     },
     defaultItem: {
-      title: '',
-      description: 'je suis une description',
-      type: 'officiel',
-      category: 'jeux-video'
+      name: 'titre'
     }
   }),
 
@@ -185,20 +150,14 @@ export default {
     save () {
       if (this.editedIndex > -1) {
         axios.put(process.env.ApiUrl + 'category/' + this.editedItem._id, {
-          title: this.editedItem.title,
-          description: this.editedItem.description,
-          type: this.editedItem.type,
-          category: this.editedItem.category
+          name: this.editedItem.name
         })
           .then(Object.assign(this.categories[this.editedIndex], this.editedItem))
           .catch((e) => { this.errors.push(e) })
       } else {
         this.categories.push(this.editedItem)
         axios.post(process.env.ApiUrl + 'category/', {
-          title: this.editedItem.title,
-          description: this.editedItem.description,
-          type: this.editedItem.type,
-          category: this.editedItem.category
+          name: this.editedItem.name
         })
           .then(this.close())
           .catch((e) => { this.errors.push(e) })
