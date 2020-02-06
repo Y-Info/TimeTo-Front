@@ -149,12 +149,16 @@ export default {
 
   methods: {
     initialize () {
-      axios
-        .get(process.env.ApiUrl + 'user',
-          {
-            headers: { Authorization: `Bearer ${this.$store.state.authUser.token}` }
-          })
-        .then(response => (this.users = response.data))
+      if (this.$store.state.authUser !== null) {
+        axios
+          .get(process.env.ApiUrl + 'user',
+            {
+              headers: { Authorization: `Bearer ${this.$store.state.authUser.token}` }
+            })
+          .then(response => (this.users = response.data))
+      } else {
+        this.$router.push('login')
+      }
     },
 
     editItem (item) {

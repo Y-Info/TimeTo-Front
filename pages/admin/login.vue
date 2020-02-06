@@ -40,14 +40,6 @@
     margin:0;
     overflow: hidden;
   }
-  .v-content__wrap{
-    margin: 0;
-  }
-  .container{
-    max-width: unset;
-    padding: 0;
-    margin: 0;
-  }
   .container_login {
     position: absolute;
     top: 50%;
@@ -235,6 +227,7 @@ export default {
           email: this.formEmail,
           password: this.formPassword
         })
+        this.$router.push('/admin')
         this.formEmail = ''
         this.formPassword = ''
         this.formError = null

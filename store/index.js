@@ -21,7 +21,6 @@ export const actions = {
     try {
       const { data } = await axios.post(process.env.ApiUrl + 'auth/login', { email, password })
       commit('SET_USER', data)
-      console.log(data)
     } catch (error) {
       if (error.response && error.response.status === 401) {
         throw new Error('Bad credentials')

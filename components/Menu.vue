@@ -26,10 +26,11 @@
           </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
-      <p class="menuSep">
+      <p v-if="$store.state.authUser !== null" class="menuSep">
         Admin
       </p>
       <v-list-item
+        v-if="$store.state.authUser !== null"
         v-for="item in itemsAdmin"
         :key="item.text"
         :to="item.url"
