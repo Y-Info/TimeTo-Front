@@ -150,7 +150,10 @@ export default {
   methods: {
     initialize () {
       axios
-        .get(process.env.ApiUrl + 'user')
+        .get(process.env.ApiUrl + 'user',
+          {
+            headers: { Authorization: `Bearer ${this.$store.state.authUser.token}` }
+          })
         .then(response => (this.users = response.data))
     },
 

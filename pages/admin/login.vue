@@ -26,7 +26,7 @@
     </ul>
   </div>
 </template>
-<style>
+<style scoped>
   .wrapper {
     background: #f67e7d;
     background: -webkit-linear-gradient(top left,#f67e7d 0%,#d4b5b5 100%);
