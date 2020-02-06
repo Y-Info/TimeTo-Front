@@ -47,9 +47,9 @@
                       <v-select
                         v-model="editedItem.category"
                         :items="categories"
+                        :rules="[v => !!v || 'Category is required']"
                         item-value="name"
                         item-text="name"
-                        :rules="[v => !!v || 'Category is required']"
                         label="Category"
                         required
                       />

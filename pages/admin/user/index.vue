@@ -101,37 +101,24 @@ export default {
     meta_desc: '',
     dialog: false,
     headers: [
-      { text: 'Title', value: 'title' },
-      { text: 'Description', value: 'description' },
-      { text: 'Type', value: 'type' },
-      { text: 'Category', value: 'category' },
+      { text: 'Name', value: 'name' },
+      { text: 'Email', value: 'email' },
+      { text: 'avatar', value: 'avatar' },
       { text: 'Actions', value: 'action', sortable: false }
-    ],
-    categories: [
-      'Jeux-Video',
-      'Item 2',
-      'Item 3',
-      'Item 4'
-    ],
-    types: [
-      'ouai ouai',
-      'Official',
-      'Item 3',
-      'Item 4'
     ],
     users: [],
     editedIndex: -1,
     editedItem: {
-      title: '',
-      description: '',
-      type: '',
-      category: ''
+      name: '',
+      email: '',
+      avatar: '',
+      password: ''
     },
     defaultItem: {
-      title: '',
-      description: 'je suis une description',
-      type: 'officiel',
-      category: 'jeux-video'
+      name: '',
+      email: 'je suis une description',
+      avatar: 'officiel',
+      password: 'jeux-video'
     }
   }),
 
