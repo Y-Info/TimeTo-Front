@@ -7,7 +7,7 @@
   </section>
 </template>
 <script>
-import CardAdminGraph from '../../components/CardAdminGraph'
+import CardAdminGraph from '~/components/CardAdminGraph'
 export default {
   components: {
     CardAdminGraph
