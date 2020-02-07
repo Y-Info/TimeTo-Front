@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <v-row class="bg_login">
     <div class="container_login">
       <h1>Welcome</h1>
 
@@ -24,15 +24,10 @@
       <li />
       <li />
     </ul>
-  </div>
+  </v-row>
 </template>
 <style scoped>
-  .wrapper {
-    background: #f67e7d;
-    background: -webkit-linear-gradient(top left,#f67e7d 0%,#d4b5b5 100%);
-    background: -moz-linear-gradient(top left,#f67e7d 0%,#d4b5b5 100%);
-    background: -o-linear-gradient(top left,#f67e7d 0%,#d4b5b5 100%);
-    background: linear-gradient(to bottom right,#f67e7d 0%,#d4b5b5 100%);
+  .bg_login {
     position: relative;
     left: 0;
     width: 100%;
@@ -85,7 +80,7 @@
   form input:focus {
     background-color: white;
     width: 300px;
-    color: #f67e7d;
+    color: black;
   }
   form button {
     appearance: none;
@@ -93,7 +88,7 @@
     background-color: white;
     border: 0;
     padding: 10px 15px;
-    color: #f67e7d;
+    color: black;
     border-radius: 3px;
     width: 250px;
     cursor: pointer;
