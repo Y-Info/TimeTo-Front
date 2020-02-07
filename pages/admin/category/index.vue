@@ -136,9 +136,13 @@ export default {
 
   methods: {
     initialize () {
-      this.$axios
-        .get(process.env.ApiUrl + 'category')
-        .then(res => (this.categories = res.data))
+      if (this.$store.state.authUser !== null) {
+        this.$axios
+          .get(process.env.ApiUrl + 'category')
+          .then(res => (this.categories = res.data))
+      } else {
+        this.$router.push('login')
+      }
     },
     toast (res, type) {
       if (type === 'error') {
@@ -164,7 +168,11 @@ export default {
           {
             headers: { Authorization: `Bearer ${this.$store.state.authUser.token}` }
           })
-        .then(this.categories.splice(index, 1))
+        .then((res) => {
+          this.toast(res, 'success')
+          this.categories.splice(index, 1)
+        })
+        .catch(e => this.toast(e, 'error'))
     },
 
     close () {

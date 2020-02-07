@@ -178,12 +178,16 @@ export default {
 
   methods: {
     initialize () {
-      this.$axios
-        .get(process.env.ApiUrl + 'event')
-        .then(res => (this.events = res.data))
-      this.$axios
-        .get(process.env.ApiUrl + 'category')
-        .then(res => (this.categories = res.data))
+      if (this.$store.state.authUser !== null) {
+        this.$axios
+          .get(process.env.ApiUrl + 'event')
+          .then(res => (this.events = res.data))
+        this.$axios
+          .get(process.env.ApiUrl + 'category')
+          .then(res => (this.categories = res.data))
+      } else {
+        this.$router.push('login')
+      }
     },
     toast (res, type) {
       if (type === 'error') {

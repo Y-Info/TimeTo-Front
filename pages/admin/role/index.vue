@@ -149,9 +149,13 @@ export default {
   methods: {
 
     initialize () {
-      this.$axios
-        .get(process.env.ApiUrl + 'role')
-        .then(response => (this.roles = response.data))
+      if (this.$store.state.authUser !== null) {
+        this.$axios
+          .get(process.env.ApiUrl + 'role')
+          .then(response => (this.roles = response.data))
+      } else {
+        this.$router.push('login')
+      }
     },
     toast (res, type) {
       if (type === 'error') {
