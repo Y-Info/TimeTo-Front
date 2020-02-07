@@ -17,3 +17,21 @@
     </v-flex>
   </v-layout>
 </template>
+<script>
+export default {
+  data () {
+    return {
+      title: 'Inspire',
+      meta_desc: ''
+    }
+  },
+  head () {
+    return {
+      title: this.title,
+      meta: [
+        { hid: 'description', name: 'description', content: this.meta_desc }
+      ]
+    }
+  }
+}
+</script>

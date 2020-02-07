@@ -3,9 +3,7 @@
     <v-content>
       <Menu />
       <UserBubulle />
-      <v-container>
-        <nuxt />
-      </v-container>
+      <nuxt />
     </v-content>
     <v-footer
       :fixed="fixed"

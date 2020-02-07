@@ -6,24 +6,43 @@
   >
     <Logo />
     <v-list dense>
+      <p class="menuSep">
+        Menu
+      </p>
       <v-list-item
         v-for="item in items"
         :key="item.text"
+        :to="item.url"
         link
       >
         <v-list-item-action>
-          <v-icon v-if="item.current !== true" dense small color="grey">
-            fas {{ item.icon }}
-          </v-icon>
-          <v-icon v-else dense small class="text-shadow-ico">
-            fas {{ item.icon }}
+          <v-icon dense small color="grey">
+            {{ item.icon }}
           </v-icon>
         </v-list-item-action>
         <v-list-item-content dense small>
-          <v-list-item-title v-if="item.current !== true" class="grey--text">
+          <v-list-item-title class="grey--text">
             {{ item.text }}
           </v-list-item-title>
-          <v-list-item-title v-else>
+        </v-list-item-content>
+      </v-list-item>
+      <p v-if="$store.state.authUser !== null" class="menuSep">
+        Admin
+      </p>
+      <v-list-item
+        v-if="$store.state.authUser !== null"
+        v-for="item in itemsAdmin"
+        :key="item.text"
+        :to="item.url"
+        link
+      >
+        <v-list-item-action>
+          <v-icon dense small color="grey">
+            {{ item.icon }}
+          </v-icon>
+        </v-list-item-action>
+        <v-list-item-content dense small>
+          <v-list-item-title class="grey--text">
             {{ item.text }}
           </v-list-item-title>
         </v-list-item-content>
@@ -47,9 +66,16 @@ export default {
   },
   data: () => ({
     items: [
-      { icon: 'fa-home', text: 'Home', current: true },
-      { icon: 'fa-fire', text: 'Trending', current: false },
-      { icon: 'fa-heart', text: 'Like', current: false }
+      { icon: 'fas fa-home', text: 'Home', url: '/' },
+      { icon: 'fas fa-fire', text: 'Trending' },
+      { icon: 'fas fa-heart', text: 'Like' }
+    ],
+    itemsAdmin: [
+      { icon: 'fab fa-keycdn', text: 'Admin', url: '/admin' },
+      { icon: 'fas fa-calendar', text: 'Event', url: '/admin/event' },
+      { icon: 'fas fa-tags', text: 'Category', url: '/admin/category' },
+      { icon: 'fas fa-user-tag', text: 'Role', url: '/admin/role' },
+      { icon: 'fas fa-user', text: 'User', url: '/admin/user' }
     ]
   }),
   created () {
