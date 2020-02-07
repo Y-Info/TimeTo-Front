@@ -93,8 +93,6 @@
   </v-container>
 </template>
 <script>
-import axios from 'axios'
-
 export default {
   data: () => ({
     snackbar: false,
@@ -147,7 +145,7 @@ export default {
   methods: {
     initialize () {
       if (this.$store.state.authUser !== null) {
-        axios
+        this.$axios
           .get(process.env.ApiUrl + 'user', {
             headers: { Authorization: `Bearer ${this.$store.state.authUser.token}` }
           })
@@ -165,7 +163,8 @@ export default {
 
     deleteItem (item) {
       const index = this.users.indexOf(item)
-      confirm('Are you sure you want to delete this item?') && axios
+      confirm('Are you sure you want to delete this item?') &&
+      this.$axios
         .delete(process.env.ApiUrl + 'user/' + item._id, {
           headers: { Authorization: `Bearer ${this.$store.state.authUser.token}` }
         })
@@ -178,12 +177,9 @@ export default {
     toast (res, type) {
       if (type === 'error') {
         this.snackbarColor = 'red'
-      } else {
-        this.snackbarColor = 'green'
-      }
-      if (type === 'error') {
         this.responses = res.response
       } else {
+        this.snackbarColor = 'green'
         this.responses = res.data
       }
       this.snackbar = true
@@ -198,7 +194,7 @@ export default {
 
     save () {
       if (this.editedIndex > -1) {
-        axios.put(process.env.ApiUrl + 'user/' + this.editedItem._id, {
+        this.$axios.put(process.env.ApiUrl + 'user/' + this.editedItem._id, {
           name: this.editedItem.name,
           email: this.editedItem.email,
           password: this.editedItem.password
@@ -212,7 +208,7 @@ export default {
           })
           .catch((e) => { this.toast(e, 'error') })
       } else {
-        axios.post(process.env.ApiUrl + 'auth/signup', {
+        this.$axios.post(process.env.ApiUrl + 'auth/signup', {
           name: this.editedItem.name,
           email: this.editedItem.email,
           password: this.editedItem.password

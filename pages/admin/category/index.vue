@@ -87,8 +87,6 @@
   </v-container>
 </template>
 <script>
-import axios from 'axios'
-
 export default {
   data: () => ({
     snackbar: false,
@@ -138,19 +136,16 @@ export default {
 
   methods: {
     initialize () {
-      axios
+      this.$axios
         .get(process.env.ApiUrl + 'category')
         .then(res => (this.categories = res.data))
     },
     toast (res, type) {
       if (type === 'error') {
         this.snackbarColor = 'red'
-      } else {
-        this.snackbarColor = 'green'
-      }
-      if (type === 'error') {
         this.responses = res.response
       } else {
+        this.snackbarColor = 'green'
         this.responses = res.data
       }
       this.snackbar = true
@@ -163,7 +158,8 @@ export default {
 
     deleteItem (item) {
       const index = this.categories.indexOf(item)
-      confirm('Are you sure you want to delete this item?') && axios
+      confirm('Are you sure you want to delete this item?') &&
+      this.$axios
         .delete(process.env.ApiUrl + 'category/' + item._id,
           {
             headers: { Authorization: `Bearer ${this.$store.state.authUser.token}` }
@@ -181,7 +177,7 @@ export default {
 
     save () {
       if (this.editedIndex > -1) {
-        axios.put(process.env.ApiUrl + 'category/' + this.editedItem._id, {
+        this.$axios.put(process.env.ApiUrl + 'category/' + this.editedItem._id, {
           name: this.editedItem.name
         }, {
           headers: { Authorization: `Bearer ${this.$store.state.authUser.token}` }
@@ -193,7 +189,7 @@ export default {
           .catch((e) => { this.errors.push(e) })
       } else {
         this.categories.push(this.editedItem)
-        axios.post(process.env.ApiUrl + 'category/', {
+        this.$axios.post(process.env.ApiUrl + 'category/', {
           name: this.editedItem.name
         }, {
           headers: { Authorization: `Bearer ${this.$store.state.authUser.token}` }
