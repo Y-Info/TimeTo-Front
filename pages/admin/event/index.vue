@@ -92,6 +92,20 @@
         </v-btn>
       </template>
     </v-data-table>
+    <v-snackbar
+      v-model="snackbar"
+      :color="snackbarColor"
+      top="true"
+    >
+      {{ responses }}
+      <v-btn
+        @click="snackbar = false"
+        color="white"
+        text
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
   </v-container>
 </template>
 <script>
@@ -99,6 +113,9 @@ import axios from 'axios'
 
 export default {
   data: () => ({
+    snackbar: false,
+    snackbarColor: 'green',
+    responses: {},
     title: 'Admin Event',
     meta_desc: '',
     dialog: false,
@@ -165,12 +182,24 @@ export default {
     initialize () {
       axios
         .get(process.env.ApiUrl + 'event')
-        .then(response => (this.events = response.data))
+        .then(res => (this.events = res.data))
       axios
         .get(process.env.ApiUrl + 'category')
-        .then(response => (this.categories = response.data))
+        .then(res => (this.categories = res.data))
     },
-
+    toast (res, type) {
+      if (type === 'error') {
+        this.snackbarColor = 'red'
+      } else {
+        this.snackbarColor = 'green'
+      }
+      if (type === 'error') {
+        this.responses = res.response
+      } else {
+        this.responses = res.data
+      }
+      this.snackbar = true
+    },
     editItem (item) {
       this.editedIndex = this.events.indexOf(item)
       this.editedItem = Object.assign({}, item)
@@ -180,8 +209,15 @@ export default {
     deleteItem (item) {
       const index = this.events.indexOf(item)
       confirm('Are you sure you want to delete this item?') && axios
-        .delete(process.env.ApiUrl + 'event/' + item._id)
-        .then(this.events.splice(index, 1))
+        .delete(process.env.ApiUrl + 'event/' + item._id,
+          {
+            headers: { Authorization: `Bearer ${this.$store.state.authUser.token}` }
+          })
+        .then((res) => {
+          this.events.splice(index, 1)
+          this.toast(res, 'success')
+        })
+        .catch(e => this.toast(e, 'error'))
     },
 
     close () {
@@ -199,19 +235,28 @@ export default {
           description: this.editedItem.description,
           type: this.editedItem.type,
           category: this.editedItem.category
+        }, {
+          headers: { Authorization: `Bearer ${this.$store.state.authUser.token}` }
         })
-          .then(Object.assign(this.events[this.editedIndex], this.editedItem))
-          .catch((e) => { this.errors.push(e) })
+          .then((res) => {
+            Object.assign(this.events[this.editedIndex], this.editedItem)
+            this.toast(res, 'success')
+          })
+          .catch(e => this.toast(e, 'success'))
       } else {
-        this.events.push(this.editedItem)
         axios.post(process.env.ApiUrl + 'event/', {
           title: this.editedItem.title,
           description: this.editedItem.description,
           type: this.editedItem.type,
           category: this.editedItem.category
+        }, {
+          headers: { Authorization: `Bearer ${this.$store.state.authUser.token}` }
         })
-          .then(this.close())
-          .catch((e) => { this.errors.push(e) })
+          .then((res) => {
+            this.toast(res, 'success')
+            this.initialize()
+          })
+          .catch(e => this.toast(e, 'success'))
       }
       this.close()
     }

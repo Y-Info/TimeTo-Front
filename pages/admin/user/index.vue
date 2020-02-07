@@ -30,27 +30,13 @@
                 <v-container>
                   <v-row>
                     <v-col cols="12">
-                      <v-text-field v-model="editedItem.title" :rules="[v => !!v || 'Title is required']" label="Title" />
+                      <v-text-field v-model="editedItem.name" :rules="[v => !!v || 'Name is required']" label="Name" />
                     </v-col>
                     <v-col cols="12">
-                      <v-text-field v-model="editedItem.description" :rules="[v => !!v || 'Description is required']" label="Description" />
+                      <v-text-field v-model="editedItem.email" :rules="[v => !!v || 'Email is required']" label="Email" />
                     </v-col>
                     <v-col cols="12">
-                      <v-select
-                        v-model="editedItem.type"
-                        :items="types"
-                        label="Type"
-                        required
-                      />
-                    </v-col>
-                    <v-col cols="12">
-                      <v-select
-                        v-model="editedItem.category"
-                        :items="categories"
-                        :rules="[v => !!v || 'Category is required']"
-                        label="Category"
-                        required
-                      />
+                      <v-text-field type="password" label="Password" />
                     </v-col>
                   </v-row>
                 </v-container>
@@ -90,6 +76,20 @@
         </v-btn>
       </template>
     </v-data-table>
+    <v-snackbar
+      v-model="snackbar"
+      :color="snackbarColor"
+      top="true"
+    >
+      {{ responses }}
+      <v-btn
+        @click="snackbar = false"
+        color="white"
+        text
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
   </v-container>
 </template>
 <script>
@@ -97,6 +97,9 @@ import axios from 'axios'
 
 export default {
   data: () => ({
+    snackbar: false,
+    snackbarColor: 'green',
+    responses: {},
     title: 'Admin User',
     meta_desc: '',
     dialog: false,
@@ -113,12 +116,6 @@ export default {
       email: '',
       avatar: '',
       password: ''
-    },
-    defaultItem: {
-      name: '',
-      email: 'je suis une description',
-      avatar: 'officiel',
-      password: 'jeux-video'
     }
   }),
 
@@ -170,10 +167,29 @@ export default {
     deleteItem (item) {
       const index = this.users.indexOf(item)
       confirm('Are you sure you want to delete this item?') && axios
-        .delete(process.env.ApiUrl + 'user/' + item._id)
-        .then(this.users.splice(index, 1))
+        .delete(process.env.ApiUrl + 'user/' + item._id,
+          {
+            headers: { Authorization: `Bearer ${this.$store.state.authUser.token}` }
+          })
+        .then((res) => {
+          this.users.splice(index, 1)
+          this.toast(res, 'success')
+        })
+        .catch(e => this.toast(e, 'error'))
     },
-
+    toast (res, type) {
+      if (type === 'error') {
+        this.snackbarColor = 'red'
+      } else {
+        this.snackbarColor = 'green'
+      }
+      if (type === 'error') {
+        this.responses = res.response
+      } else {
+        this.responses = res.data
+      }
+      this.snackbar = true
+    },
     close () {
       this.dialog = false
       setTimeout(() => {
@@ -185,23 +201,29 @@ export default {
     save () {
       if (this.editedIndex > -1) {
         axios.put(process.env.ApiUrl + 'user/' + this.editedItem._id, {
-          title: this.editedItem.title,
-          description: this.editedItem.description,
-          type: this.editedItem.type,
-          category: this.editedItem.category
+          name: this.editedItem.name,
+          email: this.editedItem.email,
+          password: this.editedItem.password
+        },
+        {
+          headers: { Authorization: `Bearer ${this.$store.state.authUser.token}` }
         })
-          .then(Object.assign(this.users[this.editedIndex], this.editedItem))
-          .catch((e) => { this.errors.push(e) })
+          .then((res) => {
+            Object.assign(this.users[this.editedIndex], this.editedItem)
+            this.toast(res, 'success')
+          })
+          .catch((e) => { this.toast(e, 'error') })
       } else {
-        this.users.push(this.editedItem)
-        axios.post(process.env.ApiUrl + 'user/', {
-          title: this.editedItem.title,
-          description: this.editedItem.description,
-          type: this.editedItem.type,
-          category: this.editedItem.category
+        axios.post(process.env.ApiUrl + 'auth/signup', {
+          name: this.editedItem.name,
+          email: this.editedItem.email,
+          password: this.editedItem.password
         })
-          .then(this.close())
-          .catch((e) => { this.errors.push(e) })
+          .then((res) => {
+            this.toast(res, 'success')
+            this.initialize()
+          })
+          .catch((e) => { this.toast(e, 'error') })
       }
       this.close()
     }

@@ -70,6 +70,20 @@
         </v-btn>
       </template>
     </v-data-table>
+    <v-snackbar
+      v-model="snackbar"
+      :color="snackbarColor"
+      top="true"
+    >
+      {{ responses }}
+      <v-btn
+        @click="snackbar = false"
+        color="white"
+        text
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
   </v-container>
 </template>
 <script>
@@ -77,6 +91,9 @@ import axios from 'axios'
 
 export default {
   data: () => ({
+    snackbar: false,
+    snackbarColor: 'green',
+    responses: {},
     title: 'Admin Category',
     meta_desc: '',
     dialog: false,
@@ -123,9 +140,21 @@ export default {
     initialize () {
       axios
         .get(process.env.ApiUrl + 'category')
-        .then(response => (this.categories = response.data))
+        .then(res => (this.categories = res.data))
     },
-
+    toast (res, type) {
+      if (type === 'error') {
+        this.snackbarColor = 'red'
+      } else {
+        this.snackbarColor = 'green'
+      }
+      if (type === 'error') {
+        this.responses = res.response
+      } else {
+        this.responses = res.data
+      }
+      this.snackbar = true
+    },
     editItem (item) {
       this.editedIndex = this.categories.indexOf(item)
       this.editedItem = Object.assign({}, item)
@@ -135,7 +164,10 @@ export default {
     deleteItem (item) {
       const index = this.categories.indexOf(item)
       confirm('Are you sure you want to delete this item?') && axios
-        .delete(process.env.ApiUrl + 'category/' + item._id)
+        .delete(process.env.ApiUrl + 'category/' + item._id,
+          {
+            headers: { Authorization: `Bearer ${this.$store.state.authUser.token}` }
+          })
         .then(this.categories.splice(index, 1))
     },
 
@@ -151,16 +183,26 @@ export default {
       if (this.editedIndex > -1) {
         axios.put(process.env.ApiUrl + 'category/' + this.editedItem._id, {
           name: this.editedItem.name
+        }, {
+          headers: { Authorization: `Bearer ${this.$store.state.authUser.token}` }
         })
-          .then(Object.assign(this.categories[this.editedIndex], this.editedItem))
+          .then((res) => {
+            Object.assign(this.categories[this.editedIndex], this.editedItem)
+            this.toast(res, 'success')
+          })
           .catch((e) => { this.errors.push(e) })
       } else {
         this.categories.push(this.editedItem)
         axios.post(process.env.ApiUrl + 'category/', {
           name: this.editedItem.name
+        }, {
+          headers: { Authorization: `Bearer ${this.$store.state.authUser.token}` }
         })
-          .then(this.close())
-          .catch((e) => { this.errors.push(e) })
+          .then((res) => {
+            this.toast(res, 'success')
+            this.initialize()
+          })
+          .catch((e) => { this.toast(e, 'error') })
       }
       this.close()
     }
