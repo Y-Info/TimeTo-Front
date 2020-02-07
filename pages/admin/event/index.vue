@@ -209,10 +209,9 @@ export default {
     deleteItem (item) {
       const index = this.events.indexOf(item)
       confirm('Are you sure you want to delete this item?') && axios
-        .delete(process.env.ApiUrl + 'event/' + item._id,
-          {
-            headers: { Authorization: `Bearer ${this.$store.state.authUser.token}` }
-          })
+        .delete(process.env.ApiUrl + 'event/' + item._id, {
+          headers: { Authorization: `Bearer ${this.$store.state.authUser.token}` }
+        })
         .then((res) => {
           this.events.splice(index, 1)
           this.toast(res, 'success')
@@ -242,7 +241,7 @@ export default {
             Object.assign(this.events[this.editedIndex], this.editedItem)
             this.toast(res, 'success')
           })
-          .catch(e => this.toast(e, 'success'))
+          .catch(e => this.toast(e, 'error'))
       } else {
         axios.post(process.env.ApiUrl + 'event/', {
           title: this.editedItem.title,
@@ -256,7 +255,7 @@ export default {
             this.toast(res, 'success')
             this.initialize()
           })
-          .catch(e => this.toast(e, 'success'))
+          .catch(e => this.toast(e, 'error'))
       }
       this.close()
     }

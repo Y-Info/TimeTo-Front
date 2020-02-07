@@ -30,27 +30,7 @@
                 <v-container>
                   <v-row>
                     <v-col cols="12">
-                      <v-text-field v-model="editedItem.title" :rules="[v => !!v || 'Title is required']" label="Title" />
-                    </v-col>
-                    <v-col cols="12">
-                      <v-text-field v-model="editedItem.description" :rules="[v => !!v || 'Description is required']" label="Description" />
-                    </v-col>
-                    <v-col cols="12">
-                      <v-select
-                        v-model="editedItem.type"
-                        :items="types"
-                        label="Type"
-                        required
-                      />
-                    </v-col>
-                    <v-col cols="12">
-                      <v-select
-                        v-model="editedItem.category"
-                        :items="categories"
-                        :rules="[v => !!v || 'Category is required']"
-                        label="Category"
-                        required
-                      />
+                      <v-text-field v-model="editedItem.name" :rules="[v => !!v || 'Name is required']" label="Name" />
                     </v-col>
                   </v-row>
                 </v-container>
@@ -90,6 +70,20 @@
         </v-btn>
       </template>
     </v-data-table>
+    <v-snackbar
+      v-model="snackbar"
+      :color="snackbarColor"
+      top="true"
+    >
+      {{ responses }}
+      <v-btn
+        @click="snackbar = false"
+        color="white"
+        text
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
   </v-container>
 </template>
 <script>
@@ -97,14 +91,14 @@ import axios from 'axios'
 
 export default {
   data: () => ({
+    snackbar: false,
+    snackbarColor: 'green',
+    responses: {},
     title: 'Admin Role',
     meta_desc: '',
     dialog: false,
     headers: [
-      { text: 'Title', value: 'title' },
-      { text: 'Description', value: 'description' },
-      { text: 'Type', value: 'type' },
-      { text: 'Category', value: 'category' },
+      { text: 'Name', value: 'name' },
       { text: 'Actions', value: 'action', sortable: false }
     ],
     categories: [
@@ -122,16 +116,10 @@ export default {
     roles: [],
     editedIndex: -1,
     editedItem: {
-      title: '',
-      description: '',
-      type: '',
-      category: ''
+      name: ''
     },
     defaultItem: {
-      title: '',
-      description: 'je suis une description',
-      type: 'officiel',
-      category: 'jeux-video'
+      name: ''
     }
   }),
 
@@ -161,12 +149,25 @@ export default {
   },
 
   methods: {
+
     initialize () {
       axios
         .get(process.env.ApiUrl + 'role')
         .then(response => (this.roles = response.data))
     },
-
+    toast (res, type) {
+      if (type === 'error') {
+        this.snackbarColor = 'red'
+      } else {
+        this.snackbarColor = 'green'
+      }
+      if (type === 'error') {
+        this.responses = res.response
+      } else {
+        this.responses = res.data
+      }
+      this.snackbar = true
+    },
     editItem (item) {
       this.editedIndex = this.roles.indexOf(item)
       this.editedItem = Object.assign({}, item)
@@ -176,8 +177,14 @@ export default {
     deleteItem (item) {
       const index = this.roles.indexOf(item)
       confirm('Are you sure you want to delete this item?') && axios
-        .delete(process.env.ApiUrl + 'role/' + item._id)
-        .then(this.roles.splice(index, 1))
+        .delete(process.env.ApiUrl + 'role/' + item._id, {
+          headers: { Authorization: `Bearer ${this.$store.state.authUser.token}` }
+        })
+        .then((res) => {
+          this.roles.splice(index, 1)
+          this.toast(res, 'success')
+        })
+        .catch(e => this.toast(e, 'error'))
     },
 
     close () {
@@ -191,23 +198,26 @@ export default {
     save () {
       if (this.editedIndex > -1) {
         axios.put(process.env.ApiUrl + 'role/' + this.editedItem._id, {
-          title: this.editedItem.title,
-          description: this.editedItem.description,
-          type: this.editedItem.type,
-          category: this.editedItem.category
+          name: this.editedItem.name
+        }, {
+          headers: { Authorization: `Bearer ${this.$store.state.authUser.token}` }
         })
-          .then(Object.assign(this.roles[this.editedIndex], this.editedItem))
-          .catch((e) => { this.errors.push(e) })
+          .then((res) => {
+            Object.assign(this.roles[this.editedIndex], this.editedItem)
+            this.toast(res, 'success')
+          })
+          .catch((e) => { this.toast(e, 'error') })
       } else {
-        this.roles.push(this.editedItem)
         axios.post(process.env.ApiUrl + 'role/', {
-          title: this.editedItem.title,
-          description: this.editedItem.description,
-          type: this.editedItem.type,
-          category: this.editedItem.category
+          name: this.editedItem.name
+        }, {
+          headers: { Authorization: `Bearer ${this.$store.state.authUser.token}` }
         })
-          .then(this.close())
-          .catch((e) => { this.errors.push(e) })
+          .then((res) => {
+            this.toast(res, 'success')
+            this.initialize()
+          })
+          .catch((e) => { this.toast(e, 'error') })
       }
       this.close()
     }

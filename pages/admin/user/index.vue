@@ -148,10 +148,9 @@ export default {
     initialize () {
       if (this.$store.state.authUser !== null) {
         axios
-          .get(process.env.ApiUrl + 'user',
-            {
-              headers: { Authorization: `Bearer ${this.$store.state.authUser.token}` }
-            })
+          .get(process.env.ApiUrl + 'user', {
+            headers: { Authorization: `Bearer ${this.$store.state.authUser.token}` }
+          })
           .then(response => (this.users = response.data))
       } else {
         this.$router.push('login')
@@ -167,10 +166,9 @@ export default {
     deleteItem (item) {
       const index = this.users.indexOf(item)
       confirm('Are you sure you want to delete this item?') && axios
-        .delete(process.env.ApiUrl + 'user/' + item._id,
-          {
-            headers: { Authorization: `Bearer ${this.$store.state.authUser.token}` }
-          })
+        .delete(process.env.ApiUrl + 'user/' + item._id, {
+          headers: { Authorization: `Bearer ${this.$store.state.authUser.token}` }
+        })
         .then((res) => {
           this.users.splice(index, 1)
           this.toast(res, 'success')
