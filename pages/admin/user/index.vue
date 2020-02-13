@@ -36,7 +36,13 @@
                       <v-text-field v-model="editedItem.email" :rules="[v => !!v || 'Email is required']" label="Email" />
                     </v-col>
                     <v-col cols="12">
-                      <v-text-field v-model="editedItem.avatar" label="Avatar" />
+                      <v-file-input
+                        v-model="editedItem.file"
+                        show-size
+                        counter
+                        accept="image/*"
+                        label="file"
+                      />
                     </v-col>
                     <v-col cols="12">
                       <v-text-field type="password" label="Password" />
@@ -116,7 +122,8 @@ export default {
       name: '',
       email: '',
       avatar: '',
-      password: ''
+      password: '',
+      file: null
     }
   }),
 
@@ -197,29 +204,57 @@ export default {
 
     save () {
       if (this.editedIndex > -1) {
-        this.$axios.put(process.env.ApiUrl + 'user/' + this.editedItem._id, {
-          name: this.editedItem.name,
-          email: this.editedItem.email,
-          password: this.editedItem.password,
-          avatar: this.editedItem.avatar
-        },
-        {
-          headers: { Authorization: `Bearer ${this.$store.state.authUser.token}` }
+        const formData = new FormData()
+        const imageFile = this.editedItem.file
+        formData.append('image', imageFile)
+        this.$axios.post('http://localhost:4000/api/user/image', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${this.$store.state.authUser.token}`
+          }
         })
           .then((res) => {
-            Object.assign(this.users[this.editedIndex], this.editedItem)
-            this.toast(res, 'success')
+            this.$axios.put(process.env.ApiUrl + 'user/' + this.editedItem._id, {
+              name: this.editedItem.name,
+              email: this.editedItem.email,
+              password: this.editedItem.password,
+              avatar: res.data
+            },
+            {
+              headers: { Authorization: `Bearer ${this.$store.state.authUser.token}` }
+            })
+              .then((res) => {
+                Object.assign(this.users[this.editedIndex], this.editedItem)
+                this.toast(res, 'success')
+              })
+              .catch((e) => { this.toast(e, 'error') })
           })
           .catch((e) => { this.toast(e, 'error') })
       } else {
-        this.$axios.post(process.env.ApiUrl + 'auth/signup', {
-          name: this.editedItem.name,
-          email: this.editedItem.email,
-          password: this.editedItem.password
+        const formData = new FormData()
+        const imageFile = this.editedItem.file
+        formData.append('image', imageFile)
+        this.$axios.post('http://localhost:4000/api/user/image', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${this.$store.state.authUser.token}`
+          }
         })
           .then((res) => {
-            this.toast(res, 'success')
-            this.initialize()
+            this.$axios.post(process.env.ApiUrl + 'user/signup', {
+              name: this.editedItem.name,
+              email: this.editedItem.email,
+              password: this.editedItem.password,
+              avatar: res.data
+            },
+            {
+              headers: { Authorization: `Bearer ${this.$store.state.authUser.token}` }
+            })
+              .then((response) => {
+                this.toast(response, 'success')
+                this.initialize()
+              })
+              .catch((e) => { this.toast(e, 'error') })
           })
           .catch((e) => { this.toast(e, 'error') })
       }
