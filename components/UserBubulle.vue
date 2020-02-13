@@ -14,7 +14,7 @@
         Connexion
       </p>
       <img
-        src="test.png"
+        src="/test.png"
         class="img_bubble"
       >
     </nuxt-link>

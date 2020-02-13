@@ -36,6 +36,9 @@
                       <v-text-field v-model="editedItem.email" :rules="[v => !!v || 'Email is required']" label="Email" />
                     </v-col>
                     <v-col cols="12">
+                      <v-text-field v-model="editedItem.avatar" label="Avatar" />
+                    </v-col>
+                    <v-col cols="12">
                       <v-text-field type="password" label="Password" />
                     </v-col>
                   </v-row>
@@ -197,7 +200,8 @@ export default {
         this.$axios.put(process.env.ApiUrl + 'user/' + this.editedItem._id, {
           name: this.editedItem.name,
           email: this.editedItem.email,
-          password: this.editedItem.password
+          password: this.editedItem.password,
+          avatar: this.editedItem.avatar
         },
         {
           headers: { Authorization: `Bearer ${this.$store.state.authUser.token}` }

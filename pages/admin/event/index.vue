@@ -130,10 +130,9 @@ export default {
       }
     ],
     types: [
-      'ouai ouai',
       'Official',
-      'Item 3',
-      'Item 4'
+      'Standard',
+      'Approved'
     ],
     events: [],
     editedIndex: -1,
