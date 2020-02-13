@@ -154,7 +154,7 @@ export default {
           .get(process.env.ApiUrl + 'role')
           .then(response => (this.roles = response.data))
       } else {
-        this.$router.push('login')
+        this.$router.push('/login')
       }
     },
     toast (res, type) {

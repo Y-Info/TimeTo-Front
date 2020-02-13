@@ -151,7 +151,7 @@ export default {
           })
           .then(response => (this.users = response.data))
       } else {
-        this.$router.push('login')
+        this.$router.push('/login')
       }
     },
 

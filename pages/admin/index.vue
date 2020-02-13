@@ -18,7 +18,7 @@ export default {
   methods: {
     initialize () {
       if (this.$store.state.authUser === null) {
-        this.$router.push('admin/login')
+        this.$router.push('login')
       }
     }
   }

@@ -186,7 +186,7 @@ export default {
           .get(process.env.ApiUrl + 'category')
           .then(res => (this.categories = res.data))
       } else {
-        this.$router.push('login')
+        this.$router.push('/login')
       }
     },
     toast (res, type) {
