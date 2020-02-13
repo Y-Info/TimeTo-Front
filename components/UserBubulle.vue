@@ -1,11 +1,22 @@
 <template>
-  <nuxt-link to="/user" class="bubble">
-    <p v-if="$store.state.authUser != null" class="user_info_bubble">
-      {{ $store.state.authUser.token }}
-    </p>
-    <img
-      src="https://images.unsplash.com/photo-1519699047748-de8e457a634e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=80"
-      class="img_bubble"
-    >
-  </nuxt-link>
+  <section>
+    <nuxt-link v-if="$store.state.authUser != null" to="/admin" class="bubble">
+      <p class="user_info_bubble">
+        {{ $store.state.authUser.name }}
+      </p>
+      <img
+        :src="$store.state.authUser.avatar"
+        class="img_bubble"
+      >
+    </nuxt-link>
+    <nuxt-link v-else to="/login" class="bubble">
+      <p class="user_info_bubble">
+        Connexion
+      </p>
+      <img
+        src="test.png"
+        class="img_bubble"
+      >
+    </nuxt-link>
+  </section>
 </template>
