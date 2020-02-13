@@ -40,7 +40,6 @@
                         v-model="editedItem.type"
                         :items="types"
                         label="Type"
-                        required
                       />
                     </v-col>
                     <v-col cols="12">
