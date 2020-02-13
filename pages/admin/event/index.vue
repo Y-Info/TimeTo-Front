@@ -40,7 +40,6 @@
                         v-model="editedItem.type"
                         :items="types"
                         label="Type"
-                        required
                       />
                     </v-col>
                     <v-col cols="12">
@@ -95,7 +94,7 @@
     <v-snackbar
       v-model="snackbar"
       :color="snackbarColor"
-      top="true"
+      :top="true"
     >
       {{ responses }}
       <v-btn
@@ -130,10 +129,9 @@ export default {
       }
     ],
     types: [
-      'ouai ouai',
       'Official',
-      'Item 3',
-      'Item 4'
+      'Standard',
+      'Approved'
     ],
     events: [],
     editedIndex: -1,
@@ -186,7 +184,7 @@ export default {
           .get(process.env.ApiUrl + 'category')
           .then(res => (this.categories = res.data))
       } else {
-        this.$router.push('login')
+        this.$router.push('/login')
       }
     },
     toast (res, type) {
@@ -195,7 +193,7 @@ export default {
         this.responses = res.response
       } else {
         this.snackbarColor = 'green'
-        this.responses = res.data
+        this.responses = res.data.message
       }
       this.snackbar = true
     },

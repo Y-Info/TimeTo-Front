@@ -11,6 +11,16 @@ import CardAdminGraph from '~/components/CardAdminGraph'
 export default {
   components: {
     CardAdminGraph
+  },
+  created () {
+    this.initialize()
+  },
+  methods: {
+    initialize () {
+      if (this.$store.state.authUser === null) {
+        this.$router.push('login')
+      }
+    }
   }
 }
 </script>
