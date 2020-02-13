@@ -79,7 +79,7 @@
     <v-snackbar
       v-model="snackbar"
       :color="snackbarColor"
-      top="true"
+      :top="true"
     >
       {{ responses }}
       <v-btn
