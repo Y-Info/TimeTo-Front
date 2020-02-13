@@ -56,7 +56,6 @@
           dark
           large
           align-center
-          class=""
         >
           Create my event
         </v-btn>
