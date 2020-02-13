@@ -50,7 +50,14 @@
     </v-list>
     <template v-slot:append>
       <div class=" pa-2 d-flex justify-center">
-        <v-btn color="error" dark large align-center class="">
+        <v-btn
+          v-if="$store.state.authUser === null"
+          color="error"
+          dark
+          large
+          align-center
+          class=""
+        >
           Create my event
         </v-btn>
       </div>
