@@ -163,7 +163,7 @@ export default {
         this.responses = res.response
       } else {
         this.snackbarColor = 'green'
-        this.responses = res.data
+        this.responses = res.data.message
       }
       this.snackbar = true
     },
