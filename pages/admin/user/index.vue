@@ -79,6 +79,24 @@
           fas fa-trash
         </v-icon>
       </template>
+      <template v-slot:item.avatar="{ item }">
+        <v-img
+          v-if="item.avatar !== 'test.png'"
+          :src="item.avatar"
+          contain
+          class="img_preview"
+          height="70px"
+          width="70px"
+        />
+        <v-img
+          v-else
+          src="/test.png"
+          contain
+          class="img_preview"
+          height="70px"
+          width="70px"
+        />
+      </template>
       <template v-slot:no-data>
         <v-btn @click="initialize" color="primary">
           Reset
@@ -111,9 +129,9 @@ export default {
     meta_desc: '',
     dialog: false,
     headers: [
+      { text: 'avatar', value: 'avatar', sortable: false },
       { text: 'Name', value: 'name' },
       { text: 'Email', value: 'email' },
-      { text: 'avatar', value: 'avatar' },
       { text: 'Actions', value: 'action', sortable: false }
     ],
     users: [],
