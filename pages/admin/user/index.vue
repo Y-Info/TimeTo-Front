@@ -226,7 +226,7 @@ export default {
           const formData = new FormData()
           const imageFile = this.editedItem.file
           formData.append('image', imageFile)
-          this.$axios.post('http://localhost:4000/api/user/image', formData, {
+          this.$axios.post(process.env.ApiUrl + 'user/image', formData, {
             headers: {
               'Content-Type': 'multipart/form-data',
               Authorization: `Bearer ${this.$store.state.authUser.token}`
@@ -268,7 +268,7 @@ export default {
         const formData = new FormData()
         const imageFile = this.editedItem.file
         formData.append('image', imageFile)
-        this.$axios.post('http://localhost:4000/api/user/image', formData, {
+        this.$axios.post(process.env.ApiUrl + 'user/image', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${this.$store.state.authUser.token}`
