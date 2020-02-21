@@ -223,27 +223,27 @@ export default {
     save () {
       if (this.editedIndex > -1) {
         if (this.editedItem.file !== undefined) {
+          const editedItem = this.editedItem
           const formData = new FormData()
           const imageFile = this.editedItem.file
-          formData.append('image', imageFile)
-          this.$axios.post('http://localhost:4000/api/user/image', formData, {
+          formData.append('file', imageFile)
+          formData.append('upload_preset', 'test_alban')
+          this.$axios.post('https://api.cloudinary.com/v1_1/dpcoqmszu/image/upload', formData, {
             headers: {
-              'Content-Type': 'multipart/form-data',
-              Authorization: `Bearer ${this.$store.state.authUser.token}`
+              'Content-Type': 'multipart/form-data'
             }
           })
             .then((res) => {
-              this.$axios.put(process.env.ApiUrl + 'user/' + this.editedItem._id, {
-                name: this.editedItem.name,
-                email: this.editedItem.email,
-                password: this.editedItem.password,
-                avatar: res.data
+              this.$axios.put(process.env.ApiUrl + 'user/' + editedItem._id, {
+                name: editedItem.name,
+                email: editedItem.email,
+                password: editedItem.password,
+                avatar: res.data.url
               },
               {
                 headers: { Authorization: `Bearer ${this.$store.state.authUser.token}` }
               })
                 .then((res) => {
-                  Object.assign(this.users[this.editedIndex], this.editedItem)
                   this.toast(res, 'success')
                 })
                 .catch((e) => { this.toast(e, 'error') })
@@ -265,21 +265,22 @@ export default {
             .catch((e) => { this.toast(e, 'error') })
         }
       } else if (this.editedItem.file !== undefined) {
+        const editedItem = this.editedItem
         const formData = new FormData()
         const imageFile = this.editedItem.file
-        formData.append('image', imageFile)
-        this.$axios.post('http://localhost:4000/api/user/image', formData, {
+        formData.append('file', imageFile)
+        formData.append('upload_preset', 'test_alban')
+        this.$axios.post('https://api.cloudinary.com/v1_1/dpcoqmszu/image/upload', formData, {
           headers: {
-            'Content-Type': 'multipart/form-data',
-            Authorization: `Bearer ${this.$store.state.authUser.token}`
+            'Content-Type': 'multipart/form-data'
           }
         })
           .then((res) => {
             this.$axios.post(process.env.ApiUrl + 'user/signup', {
-              name: this.editedItem.name,
-              email: this.editedItem.email,
-              password: this.editedItem.password,
-              avatar: res.data
+              name: editedItem.name,
+              email: editedItem.email,
+              password: editedItem.password,
+              avatar: res.data.url
             },
             {
               headers: { Authorization: `Bearer ${this.$store.state.authUser.token}` }

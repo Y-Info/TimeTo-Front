@@ -80,7 +80,6 @@ export default {
       { icon: 'fab fa-keycdn', text: 'Admin', url: '/admin' },
       { icon: 'fas fa-calendar', text: 'Event', url: '/admin/event' },
       { icon: 'fas fa-tags', text: 'Category', url: '/admin/category' },
-      { icon: 'fas fa-user-tag', text: 'Role', url: '/admin/role' },
       { icon: 'fas fa-user', text: 'User', url: '/admin/user' }
     ]
   }),
