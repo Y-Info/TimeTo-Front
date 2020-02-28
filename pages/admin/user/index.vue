@@ -145,7 +145,7 @@ export default {
     roles: [
       'admin',
       'member',
-      'approuved'
+      'approved'
     ],
     users: [],
     editedIndex: -1,
