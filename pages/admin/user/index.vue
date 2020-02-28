@@ -36,6 +36,13 @@
                       <v-text-field v-model="editedItem.email" :rules="[v => !!v || 'Email is required']" label="Email" />
                     </v-col>
                     <v-col cols="12">
+                      <v-select
+                        v-model="editedItem.role"
+                        :items="roles"
+                        label="Role"
+                      />
+                    </v-col>
+                    <v-col cols="12">
                       <v-file-input
                         v-model="editedItem.file"
                         show-size
@@ -132,7 +139,13 @@ export default {
       { text: 'avatar', value: 'avatar', sortable: false },
       { text: 'Name', value: 'name' },
       { text: 'Email', value: 'email' },
+      { text: 'Role', value: 'role' },
       { text: 'Actions', value: 'action', sortable: false }
+    ],
+    roles: [
+      'admin',
+      'member',
+      'approved'
     ],
     users: [],
     editedIndex: -1,
@@ -238,6 +251,7 @@ export default {
                 name: editedItem.name,
                 email: editedItem.email,
                 password: editedItem.password,
+                role: editedItem.role,
                 avatar: res.data.url
               },
               {
@@ -253,6 +267,7 @@ export default {
           this.$axios.put(process.env.ApiUrl + 'user/' + this.editedItem._id, {
             name: this.editedItem.name,
             email: this.editedItem.email,
+            role: this.editedItem.role,
             password: this.editedItem.password
           },
           {
@@ -280,6 +295,7 @@ export default {
               name: editedItem.name,
               email: editedItem.email,
               password: editedItem.password,
+              role: editedItem.role,
               avatar: res.data.url
             },
             {
@@ -296,6 +312,7 @@ export default {
         this.$axios.post(process.env.ApiUrl + 'user/signup', {
           name: this.editedItem.name,
           email: this.editedItem.email,
+          role: this.editedItem.role,
           password: this.editedItem.password
         },
         {
